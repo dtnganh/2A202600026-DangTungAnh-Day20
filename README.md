@@ -143,9 +143,21 @@ Các phần học viên cần tự làm:
 Học viên nộp:
 
 1. GitHub repo cá nhân.
-2. Screenshot trace hoặc link trace.
+2. Screenshot trace hoặc link trace: ![Trace Screenshot](./images/Screenshot%202026-05-06%20213112.png)
 3. `reports/benchmark_report.md` so sánh single vs multi-agent.
-4. Một đoạn giải thích failure mode và cách fix.
+4. Một đoạn giải thích failure mode và cách fix (đã lưu trong báo cáo).
+
+---
+
+## 🔥 Các chức năng đã hoàn thiện trong bài Lab:
+
+- **LLM Client & Search Client**: Tích hợp thành công `ChatOpenAI` (gpt-4o-mini) và `TavilySearchResults`.
+- **Hệ thống Multi-Agent**: Xây dựng đủ 5 vai trò (Supervisor, Researcher, Analyst, Writer, Critic) tự động giao tiếp qua state chung (`ResearchState`).
+- **LangGraph Workflow**: Điều hướng động (conditional edges) đảm bảo thông tin luôn xoay vòng về Supervisor kiểm duyệt trước khi sang bước tiếp theo.
+- **Observability**: Gắn `langsmith.run_helpers.trace` để theo dõi và vẽ sơ đồ tương tác trực quan.
+- **Evaluation Report**: Chạy so sánh hiệu suất, chi phí và chất lượng thực tế, được đánh giá bằng LLM-as-a-judge (Gemini Pro).
+
+---
 
 ## References
 

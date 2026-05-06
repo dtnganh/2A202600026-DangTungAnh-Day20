@@ -9,9 +9,26 @@ def render_markdown_report(metrics: list[BenchmarkMetrics]) -> str:
     TODO(student): Add richer analysis, examples, screenshots, and trace links.
     """
 
-    lines = ["# Benchmark Report", "", "| Run | Latency (s) | Cost (USD) | Quality | Notes |", "|---|---:|---:|---:|---|"]
+    lines = [
+        "# Benchmark Report", 
+        "", 
+        "**Note:** Quality Score is to be evaluated manually by submitting the final answer to Gemini Pro.",
+        "",
+        "| Run | Latency (s) | Cost (USD) | Quality | Notes |", 
+        "|---|---:|---:|---:|---|"
+    ]
     for item in metrics:
         cost = "" if item.estimated_cost_usd is None else f"{item.estimated_cost_usd:.4f}"
-        quality = "" if item.quality_score is None else f"{item.quality_score:.1f}"
+        quality = "TODO: Eval with Gemini" if item.quality_score is None else f"{item.quality_score:.1f}"
         lines.append(f"| {item.run_name} | {item.latency_seconds:.2f} | {cost} | {quality} | {item.notes} |")
+    
+    lines.extend([
+        "",
+        "## Traces",
+        "- LangSmith Trace Link: `[Dán link trace của bạn vào đây]`",
+        "",
+        "## Failure Modes & Fixes",
+        "- Nếu hệ thống thất bại hoặc Agent hoạt động không như ý muốn, hãy ghi chú vào đây."
+    ])
+    
     return "\n".join(lines) + "\n"

@@ -1,5 +1,9 @@
 """Command-line entrypoint for the lab starter."""
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from typing import Annotated
 
 import typer
@@ -31,11 +35,22 @@ def baseline(
     _init()
     request = ResearchQuery(query=query)
     state = ResearchState(request=request)
-    state.final_answer = (
-        "Baseline skeleton response. TODO(student): replace this with a real single-agent "
-        "implementation and record latency/cost/quality metrics."
-    )
-    console.print(Panel.fit(state.final_answer, title="Single-Agent Baseline"))
+    
+    try:
+        from multi_agent_research_lab.services.llm_client import LLMClient
+        client = LLMClient()
+        system_prompt = "You are a helpful research assistant. Answer the user's query comprehensively."
+        response = client.complete(system_prompt=system_prompt, user_prompt=query)
+        
+        state.final_answer = response.content
+        console.print(Panel.fit(state.final_answer, title="Single-Agent Baseline Result"))
+        
+        if response.cost_usd or response.input_tokens:
+            metrics_str = f"Tokens: In={response.input_tokens}, Out={response.output_tokens}"
+            console.print(Panel.fit(metrics_str, title="Metrics"))
+            
+    except Exception as e:
+        console.print(Panel.fit(f"Error calling LLM: {e}", style="red"))
 
 
 @app.command("multi-agent")
